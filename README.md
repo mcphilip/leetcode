@@ -1,0 +1,2 @@
+# leetcode
+Leetcode typescript exercises
