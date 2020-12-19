@@ -1,13 +1,13 @@
-const { setupTree, levelOrder, MultiLevelQueue, TreeNode } = require('./index');
+const { setupTree, levelOrder, Queue, TreeNode } = require('./index');
 
-describe('MultiLevelQueue', () => {
-    it('should build two level queue', () => {
-        const mlq = new MultiLevelQueue();
-        mlq.enqueue(0, 1);
-        mlq.enqueue(1, 2);
-        mlq.enqueue(1, 3);
-
-        expect(mlq.toArrayOfArrays()).toEqual([[1],[2,3]]);
+describe('Queue', () => {
+    it('should enqueue and dequeue in expected order', () => {
+        const mlq = new Queue();
+        mlq.enqueue(1);
+        mlq.enqueue(2);
+        
+        expect(mlq.dequeue()).toEqual(1);
+        expect(mlq.dequeue()).toEqual(2);
     });
 });
 
