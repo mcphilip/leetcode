@@ -5,21 +5,18 @@ function TreeNode(val, left, right, parentNode) {
     this.parentNode = (parentNode === undefined ? null : parentNode);
 }
 
-function MultiLevelQueue(){
-    const queueArrays = [];
+function Queue(){
+    const queueArray = [];
 
     return {
-        enqueue(level, val) {
-            if (queueArrays[level] === undefined) {
-                queueArrays[level] = [];
-            }
-            queueArrays[level].push(val);
+        enqueue(val) {
+            queueArray.push(val);
         },
-        dequeue(level) {
-            return (queueArrays[level] || []).shift();
+        dequeue() {
+            return queueArray.shift();
         },
-        toArrayOfArrays() {
-            return queueArrays;
+        length() {
+            return queueArray.length;
         }
     }
 }
@@ -59,29 +56,35 @@ function levelOrder(tree) {
     if (!tree || tree.val === null || tree.val == undefined) return [];
 
     const result = [];
-    const mlq = new MultiLevelQueue();
+    const q = new Queue();
 
-    addNodeToMultiLevelQueue(tree, mlq, 0);
+    let level = 0;
+    let countAtLevel, numberRemovedAtLevel, currentTreeNode;
+    q.enqueue(tree);
 
-    return mlq.toArrayOfArrays();
-}
+    while (q.length() > 0) {
+        countAtLevel = q.length();
+        numberRemovedAtLevel = 0;
+        result[level] = [];
+        while (numberRemovedAtLevel < countAtLevel) {
+            currentTreeNode = q.dequeue();
+            
+            result[level].push(currentTreeNode.val);
 
-function addNodeToMultiLevelQueue(node, mlq, level) {
-    mlq.enqueue(level, node.val);
+            if (currentTreeNode.left) q.enqueue(currentTreeNode.left);
+            if (currentTreeNode.right) q.enqueue(currentTreeNode.right);
 
-    if (node.left != null) {
-        addNodeToMultiLevelQueue(node.left, mlq, level + 1);
+            numberRemovedAtLevel++;
+        }
+        level++;
     }
 
-    if (node.right != null) {
-        addNodeToMultiLevelQueue(node.right, mlq, level + 1);
-    }
+    return result;
 }
-
 
 module.exports = {
     setupTree,
     levelOrder,
-    MultiLevelQueue,
+    Queue,
     TreeNode
 }
