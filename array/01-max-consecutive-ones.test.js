@@ -1,4 +1,4 @@
-const {maxConsecutiveOnes} = require('./max-consecutive-ones');
+const {maxConsecutiveOnes} = require('./01-max-consecutive-ones');
 
 describe('maxConsecutiveOnes', () => {
     it('should return 0 for null input', () => {
